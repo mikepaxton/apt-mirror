@@ -1,0 +1,5 @@
+#
+# Regular cron jobs for the apt-mirror package
+#
+0 3 * * * root /usr/bin/apt-mirror 2>&1 | /var/spool/apt-mirror/timestamp.sh >> /var/spool/apt-mirror/var/cron.log
+0 6 * * * root /var/spool/apt-mirror/var/clean.sh 2>&1 | /var/spool/apt-mirror/timestamp.sh >> /var/spool/apt-mirror/var/cron.log

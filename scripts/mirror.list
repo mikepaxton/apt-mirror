@@ -1,0 +1,47 @@
+############# config ##################
+#
+set base_path    /var/spool/apt-mirror
+#
+set mirror_path  $base_path/mirror
+set skel_path    $base_path/skel
+set var_path     $base_path/var
+set cleanscript  /var/spool/apt-mirror/var/clean.sh
+# set defaultarch  <running host architecture>
+set postmirror_script /var/spool/apt-mirror/var/postmirror.sh
+# set run_postmirror 0
+set nthreads   25
+set _tilde 0
+#set limit_rate 100k   ## Per thread ##
+#
+############# end config ##############
+
+## Debian 12 Bookworm
+deb-amd64 http://deb.debian.org/debian bookworm contrib main non-free non-free-firmware
+deb-arm64 http://deb.debian.org/debian bookworm contrib main non-free non-free-firmware
+deb-armhf http://deb.debian.org/debian bookworm contrib main non-free non-free-firmware
+deb-amd64 http://deb.debian.org/debian bookworm-updates contrib main non-free non-free-firmware
+deb-arm64 http://deb.debian.org/debian bookworm-updates contrib main non-free non-free-firmware
+deb-armhf http://deb.debian.org/debian bookworm-updates contrib main non-free non-free-firmware
+
+## Raspberry Pi Bookworm 12
+deb-arm64 http://archive.raspberrypi.com/debian bookworm main
+deb-armhf http://archive.raspberrypi.com/debian bookworm main
+
+## Debian 11 Bullseye
+deb-arm64 http://deb.debian.org/debian bullseye main contrib non-free
+deb-armhf http://deb.debian.org/debian bullseye main contrib non-free
+deb-arm64 http://deb.debian.org/debian bullseye-updates main contrib non-free
+deb-armhf http://deb.debian.org/debian bullseye-updates main contrib non-free
+
+## Raspberry Pi Bullseye 11
+deb-arm64 http://archive.raspberrypi.org/debian bullseye main
+deb-armhf http://archive.raspberrypi.org/debian bullseye main
+
+## Docker
+deb-arm64 https://download.docker.com/linux/debian bullseye stable
+
+## Clean
+clean http://deb.debian.org/debian
+clean http://archive.raspberrypi.com/debian
+clean http://download.docker.com/linux/debian
+

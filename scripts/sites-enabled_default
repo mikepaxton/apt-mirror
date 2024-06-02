@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name echovault.local;
+    root /var/spool/apt-mirror/mirror;
+
+    access_log /var/log/nginx/apt-mirror.access.log;
+    error_log  /var/log/nginx/apt-mirror.error.log;
+
+#    server_name_in_redirect off;
+
+    location / {
+        autoindex on;
+    }
+}
