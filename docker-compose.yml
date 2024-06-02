@@ -10,4 +10,7 @@ services:
       - ${STORAGE_DIR}:/var/spool/apt-mirror
     ports:
       - 8140:80
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
     restart: unless-stopped

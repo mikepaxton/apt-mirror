@@ -17,7 +17,7 @@ The purpose of this repository is to create a local APT mirror using Docker. Thi
 - **Scheduled Updates**: Mirrors repositories during off-peak hours to avoid bandwidth issues.
 
 
-## Included Software
+## Included Software in the container
 
 - `wget`: For downloading files.
 - `nginx`: To serve the mirrored repository.
@@ -27,9 +27,14 @@ The purpose of this repository is to create a local APT mirror using Docker. Thi
 
 ## Setup
 
+- Ensure that Docker and Docker Compose are installed and configured on your system before running the script.
+- Modify the script according to your specific requirements, such as adjusting file paths (.env) or adding additional commands.
+- Always review the script and test it in a development environment before using it in a production environment.
+- You will find the file mirror.list in the scripts directory. Before deploying apt-mirror, you will want to modify the file for the repositories you wish to mirror.
+- You can modify when cron runs to keep your repositories up-to-date by modifying apt_mirror.cron in the scripts folder.
 
 
-### Docker Compose
+## Docker Compose file
 
 Include the following in your `docker-compose.yml`:
 
@@ -39,23 +44,13 @@ services:
     build: .
     container_name: apt-mirror
     volumes:
-      - /data/www/html/apt-mirror:/var/spool/apt-mirror
+      - ${STORAGE_DIR}:/var/spool/apt-mirror
     ports:
       - "80:80"
     environment:
       - NGINX_HOST=localhost
       - NGINX_PORT=80
     restart: unless-stopped
-```
-
-## Building the Docker Image
-Ensure your Dockerfile builds the necessary image with all configurations.
-
-## Running the apt-mirror
-To start the service, navigate to the directory containing your docker-compose.yml and run:
-
-```sh
-docker-compose up -d --build
 ```
 
 ## Accessing the APT Mirror
@@ -66,26 +61,68 @@ Ensure the apt-mirror container has network access to reach upstream APT reposit
 Adjust configuration files and environment variables as needed for your specific setup.
 By following these instructions, you can set up a local APT mirror using Docker.
 
+## Docker Deployment Script
+File: deploy.sh
 
+```sh
+#!/bin/bash
 
+# Load environment variables from .env file
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs -0)
+fi
 
-*/usr/bin/apt-mirror 2>&1 | /var/spool/apt-mirror/timestamp.sh >> /var/spool/apt-mirror/var/cron.log /var/spool/apt-mirror/var/clean.sh 2>&1 | /var/spool/apt-mirror/timestamp.sh >> /var/spool/apt-mirror/var/cron.log*
+# Perform the copy operation
+cp -r "./scripts/." "$STORAGE_DIR"
+sudo chmod +x "$STORAGE_DIR"/*.sh
 
-I've chosen not to use Managed Bandwidth as I let apt-mirror run in the middle of the night.
+# Start docker-compose build and up
+docker compose up --build
 
+```
 
-## Deploying:
+This script automates the deployment process for a Dockerized application. It loads environment variables from a `.env` file, copies scripts to a specified directory, makes all `.sh` files executable, and then starts the Docker containers using `docker compose up --build`.
 
-I've included both a Dockerfile and docker-compose.yml file. It's best to make the changes to both apt-mirror.cron and mirror.list which can be found in the scripts folder before building the container. 
+## Usage
 
+1. Place the `.env` file containing environment variables in the same directory as the script.
 
-## Configuring:
+2. Ensure that the necessary scripts are located in a directory named `scripts` within the current directory.
 
-You will find the mirror.list at the location you chose for your volume - apt-mirror-config:/var/spool/apt-mirror.  After you edit this file, you will need to restart the container for the changes to take effect.
+3. Run the script using the following command:
+
+    ```bash
+    /deploy.sh
+    ```
+
+## Script Explanation
+
+- **Load Environment Variables**: The script loads environment variables from the `.env` file using `export $(grep -v '^#' .env | xargs -0)`. This allows configuration of the deployment environment.
+
+- **Copy Operation**: It copies the contents of the `scripts` directory to a directory specified by `$STORAGE_DIR`.
+
+- **Set File Permissions**: The script makes all `.sh` files within the `$STORAGE_DIR` directory executable using `sudo chmod +x "$STORAGE_DIR"/*.sh`.
+
+- **Docker Compose**: Finally, it starts building the image and Docker container using `docker compose up --build`.
+*I purposely left the -d (detach command out) so you can monitor the building process to make sure everything goes well*
+
+## Future Configuring
+
+You will find the mirror.list at the location you chose for your volume - /data/www/html/apt-mirror:/var/spool/apt-mirror.  After you edit this file, you will need to restart the container for the changes to take effect.
+```sh
+docker compose restart apt-mirror
+```
+## Starting apt-mirror without building
+Once the image and container have been built using ./deploy.sh, you can start docker normally by using:
+
+```sh
+docker compose up -d
+```
 
 If you need to edit the cron job use:
 
 - docker exec -it apt-mirror bash
 - nano /etc/cron.d/apt-mirror.cron
+
 
 
