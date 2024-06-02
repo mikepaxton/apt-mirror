@@ -2,7 +2,7 @@
 
 This repository sets up a local APT mirror using Docker, leveraging a modified `apt-mirror` binary that addresses several known issues. This setup is particularly useful for environments that require offline access to package repositories.
 
-*This repository is a spin off of an excellent docker container made by [gregewing/apt-mirror](https://hub.docker.com/r/gregewing/apt-mirror).  I've made a couple of modifications to function better with using a Raspberry Pi as the server.*
+*This repository is a spin off of an excellent docker container made by [gregewing/apt-mirror](https://hub.docker.com/r/gregewing/apt-mirror).  I've made a couple of modifications to fudnction better with using a Raspberry Pi as the server.*
 
 ## Purpose
 
@@ -114,7 +114,12 @@ docker compose restart apt-mirror
 ```
 ## Starting apt-mirror without building
 Once the image and container have been built using ./deploy.sh, you can start docker normally by using:
-
+*NOTE: Before running the following you will need to edit the docker-compose.yml file and comment out the " build: ." line and save the file.*
+*Not doing so will cause docker compose up to rebuild the container.*
+```yaml
+#Build: .
+```
+Now run:
 ```sh
 docker compose up -d
 ```
