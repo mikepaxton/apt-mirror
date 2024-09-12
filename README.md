@@ -75,13 +75,14 @@ fi
 # Perform the copy operation
 cp -r "./scripts/." "$STORAGE_DIR"
 sudo chmod +x "$STORAGE_DIR"/*.sh
+mv "$STORAGE_DIR/sites-enabled_default" "$NGINX_SITE_ENABLED_DIR/apt-mirror.conf"
 
 # Start docker-compose build and up
 docker compose up --build
 
 ```
 
-This script automates the deployment process for a Dockerized application. It loads environment variables from a `.env` file, copies scripts to a specified directory, makes all `.sh` files executable, and then starts the Docker containers using `docker compose up --build`.
+This deploy script automates the deployment process for a Dockerized application. It loads environment variables from a `.env` file, copies scripts to a specified directory, makes all `.sh` files executable, and then starts the Docker containers using `docker compose up --build`.
 
 ## Usage
 

@@ -9,7 +9,8 @@ set cleanscript  /var/spool/apt-mirror/var/clean.sh
 # set defaultarch  <running host architecture>
 set postmirror_script /var/spool/apt-mirror/var/postmirror.sh
 # set run_postmirror 0
-set nthreads   25
+# For RPi Zero 2 W keep threads small as the Pi only has 512MB RAM
+set nthreads   3 
 set _tilde 0
 #set limit_rate 100k   ## Per thread ##
 #
@@ -26,16 +27,6 @@ deb-armhf http://deb.debian.org/debian bookworm-updates contrib main non-free no
 ## Raspberry Pi Bookworm 12
 deb-arm64 http://archive.raspberrypi.com/debian bookworm main
 deb-armhf http://archive.raspberrypi.com/debian bookworm main
-
-## Debian 11 Bullseye
-deb-arm64 http://deb.debian.org/debian bullseye main contrib non-free
-deb-armhf http://deb.debian.org/debian bullseye main contrib non-free
-deb-arm64 http://deb.debian.org/debian bullseye-updates main contrib non-free
-deb-armhf http://deb.debian.org/debian bullseye-updates main contrib non-free
-
-## Raspberry Pi Bullseye 11
-deb-arm64 http://archive.raspberrypi.org/debian bullseye main
-deb-armhf http://archive.raspberrypi.org/debian bullseye main
 
 ## Docker
 deb-arm64 https://download.docker.com/linux/debian bullseye stable

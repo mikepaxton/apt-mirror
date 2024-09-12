@@ -1,9 +1,9 @@
 services:
   apt-mirror:
-    build: .
+    #build: .
     image: mikepaxton/apt-mirror
     network_mode: bridge
-    container_name: apt-mirror2
+    container_name: apt-mirror
     environment:
       - TZ=America/Los_Angeles
       - NGINX_HOST=localhost
@@ -11,5 +11,5 @@ services:
     volumes:
       - ${STORAGE_DIR}:/var/spool/apt-mirror
     ports:
-      - 8140:80
+      - 8220:80
     restart: unless-stopped
