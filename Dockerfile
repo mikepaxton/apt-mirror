@@ -16,12 +16,13 @@ RUN echo \
                           nginx \
                           cron \
                           nano \
+                          curl \
                           xz-utils \
  && apt-get -q -y clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && mv /etc/apt/mirror.list /etc/apt/mirror.list.default \
  && mv /var/spool/apt-mirror/mirror.list /etc/apt/mirror.list \
- && mv /var/spool/apt-mirror/sites-enabled_default /etc/nginx/sites-enabled/default \
+ && mv /var/spool/apt-mirror/apt-mirror-site-enabled /etc/nginx/sites-enabled/apt-mirror.conf \
  && mv /var/spool/apt-mirror/apt-mirror /usr/bin/apt-mirror \
  && chmod +x /usr/bin/apt-mirror \
  && mv /var/spool/apt-mirror/apt-mirror.cron /etc/cron.d/apt-mirror \
@@ -30,7 +31,7 @@ RUN echo \
 
 
 
-EXPOSE 80
+EXPOSE 81
 
 VOLUME ["/var/spool/apt-mirror"]
 

@@ -1,13 +1,13 @@
-# In your sites-enabled/apt-mirror.conf
+#  In your sites-enabled/apt-mirror
 server {
     listen 80;
-    server_name ~^apt-mirror\..+$;  # Matches any domain starting with 'apt-mirror'
-
+    server_name ~^apt-mirror\..*$;
     # Use the container name from the Docker Compose file
     set $docker_host "apt-mirror";
 
     location / {
-        proxy_pass http://$docker_host:8220;        
+        autoindex on;
+        proxy_pass http://$docker_host:81;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

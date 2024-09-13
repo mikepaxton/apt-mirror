@@ -1,15 +1,22 @@
 services:
   apt-mirror:
-    #build: .
+    build: .
     image: mikepaxton/apt-mirror
-    network_mode: bridge
+    networks:
+      - nginx-web
     container_name: apt-mirror
     environment:
       - TZ=America/Los_Angeles
-      - NGINX_HOST=localhost
+      - NGINX_HOST=cyberserver.local
       - NGINX_PORT=80
     volumes:
       - ${STORAGE_DIR}:/var/spool/apt-mirror
+      - ./log:/var/log/nginx
     ports:
-      - 8220:80
-    restart: unless-stopped
+      - 8220:81
+    restart: no
+networks:
+  nginx-web:
+    external: true
+    name: nginx-web
+    driver: bridge

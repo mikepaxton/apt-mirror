@@ -1,0 +1,5 @@
+172.19.0.3 - - [13/Sep/2024:01:28:49 -0700] "GET / HTTP/1.0" 200 638 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.19.0.3 - - [13/Sep/2024:01:28:49 -0700] "GET /favicon.ico HTTP/1.0" 404 564 "http://apt-mirror.cyberserver.local/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.19.0.3 - - [13/Sep/2024:01:28:53 -0700] "GET /archive.raspberrypi.com/ HTTP/1.0" 200 295 "http://apt-mirror.cyberserver.local/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.19.0.3 - - [13/Sep/2024:01:28:54 -0700] "GET /archive.raspberrypi.com/debian/ HTTP/1.0" 200 418 "http://apt-mirror.cyberserver.local/archive.raspberrypi.com/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+172.19.0.3 - - [13/Sep/2024:01:36:40 -0700] "GET / HTTP/1.0" 200 638 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"

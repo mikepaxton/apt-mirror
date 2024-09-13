@@ -32,7 +32,8 @@ The purpose of this repository is to create a local APT mirror using Docker. Thi
 - Always review the script and test it in a development environment before using it in a production environment.
 - You will find the file mirror.list in the scripts directory. Before deploying apt-mirror, you will want to modify the file for the repositories you wish to mirror.
 - You can modify when cron runs to keep your repositories up-to-date by modifying apt_mirror.cron in the scripts folder.
-
+- Because i'm using a seperate nginx container with reverse proxy, I need to make the internal nginx port for this container 81.
+- This will give me the ability to use something like https://apt-mirror.deb.debian.org/debian on other systems to access my offline apt repository.
 
 ## Docker Compose file
 
@@ -45,12 +46,19 @@ services:
     container_name: apt-mirror
     volumes:
       - ${STORAGE_DIR}:/var/spool/apt-mirror
-    ports:
-      - "80:80"
+   networks:
+      - nginx-web 
+   ports:
+      - "8220:81"
     environment:
-      - NGINX_HOST=localhost
+      - NGINX_HOST=cyberserver.local
       - NGINX_PORT=80
-    restart: unless-stopped
+    restart: no
+networks:
+  nginx-web:
+    external: true
+    name: nginx-web
+    driver: bridge
 ```
 
 ## Accessing the APT Mirror
@@ -75,8 +83,8 @@ fi
 # Perform the copy operation
 cp -r "./scripts/." "$STORAGE_DIR"
 sudo chmod +x "$STORAGE_DIR"/*.sh
-mv "$STORAGE_DIR/sites-enabled_default" "$NGINX_SITE_ENABLED_DIR/apt-mirror.conf"
-
+sudo chown www-data:www-data "$STORAGE_DIR"/*
+mv "$STORAGE_DIR"/nginx-site-enabled "$NGINX_SITE_ENABLED_DIR"/apt-mirror.conf
 # Start docker-compose build and up
 docker compose up --build
 
@@ -90,10 +98,10 @@ This deploy script automates the deployment process for a Dockerized application
 
 2. Ensure that the necessary scripts are located in a directory named `scripts` within the current directory.
 
-3. Run the script using the following command:
+3. Run the script using the following command.  Depending on your permisions of the destination directory for the apt-mirror scripts, you may need to use sudo:
 
     ```bash
-    /deploy.sh
+    sudo ./deploy.sh
     ```
 
 ## Script Explanation

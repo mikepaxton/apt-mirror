@@ -12,7 +12,7 @@ set postmirror_script /var/spool/apt-mirror/var/postmirror.sh
 # For RPi Zero 2 W keep threads small as the Pi only has 512MB RAM
 set nthreads   3 
 set _tilde 0
-#set limit_rate 100k   ## Per thread ##
+set limit_rate 30m   ## Per thread ##
 #
 ############# end config ##############
 
