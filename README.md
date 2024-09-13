@@ -34,6 +34,10 @@ The purpose of this repository is to create a local APT mirror using Docker. Thi
 - You can modify when cron runs to keep your repositories up-to-date by modifying apt_mirror.cron in the scripts folder.
 - Because i'm using a seperate nginx container with reverse proxy, I need to make the internal nginx port for this container 81.
 - This will give me the ability to use something like https://apt-mirror.deb.debian.org/debian on other systems to access my offline apt repository.
+- There are two nginx site-enabled config files inside the script folder.  Nginx-site-enabled is ment to be put inside an external nginx container for reverse proxy.
+- The apt-mirror-site-enabled get placed inside the actual apt-mirror container for its built in nginx server.
+- Both files will automatically be placed.  But you will need to modify the .env so it can locate the external nginx container.
+
 
 ## Docker Compose file
 
